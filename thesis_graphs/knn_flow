@@ -1,0 +1,11 @@
+digraph {
+	A [label="User Rating Data"]
+	B [label="User Item Matrix"]
+	C [label="KNN Model Training"]
+	D [label="Nearest Neighbors"]
+	E [label="Recommended Books"]
+	A -> B
+	B -> C
+	C -> D
+	D -> E
+}

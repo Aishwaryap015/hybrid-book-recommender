@@ -1,0 +1,721 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ book.title }} | BookAI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root{
+            --accent-red:#ef4444;
+            --neural-dark:#0f172a;
+        }
+
+        body{
+            font-family:'Plus Jakarta Sans',sans-serif;
+            background:#f8fafc;
+        }
+
+        .glass-nav{
+            background:rgba(255,255,255,0.95);
+            backdrop-filter:blur(10px);
+        }
+
+        .hero-bg{
+            background:
+            linear-gradient(to right, rgba(2,6,23,.95), rgba(15,23,42,.75)),
+            url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1600&auto=format&fit=crop');
+
+            background-size:cover;
+            background-position:center;
+        }
+
+        .book-glow{
+            box-shadow:
+            0 25px 50px rgba(0,0,0,.25),
+            0 0 50px rgba(239,68,68,.15);
+        }
+
+        .toast{
+            animation: slideTop .4s ease;
+        }
+
+        @keyframes slideTop{
+
+            from{
+                opacity:0;
+                transform:translateY(100px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+    </style>
+
+</head>
+
+<body class="overflow-x-hidden">
+
+<!-- NAVBAR -->
+
+<nav class="glass-nav sticky top-0 z-[500] border-b border-slate-200 px-6 md:px-16 py-4 flex items-center justify-between">
+
+    <!-- LOGO -->
+
+    <div class="flex items-center gap-3 cursor-pointer"
+         onclick="window.location.href='/'">
+
+        <div class="w-10 h-10 bg-red-500 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/20">
+
+            <span class="text-white font-black text-xs">
+                AI
+            </span>
+
+        </div>
+
+        <div class="leading-none">
+
+            <span class="text-xl font-extrabold text-slate-900 tracking-tighter">
+                BookAI
+            </span>
+
+            <span class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mt-0.5">
+                Enterprise v4.2
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- SEARCH -->
+
+    <div class="flex-1 flex justify-center px-6">
+
+        <form method="GET" action="/" class="w-full max-w-2xl relative">
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Search for ISBN, Book Name..."
+                class="w-full bg-slate-100 border-none rounded-lg py-3 px-12 text-sm font-semibold outline-none focus:ring-2 focus:ring-yellow-400 transition-all"
+            >
+
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 opacity-30">
+                🔍
+            </span>
+
+        </form>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="flex items-center justify-center gap-5 min-w-[170px]">
+
+        <!-- GIFT -->
+
+        <button class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors text-xl rounded-full hover:bg-slate-100">
+            🎁
+        </button>
+
+        <!-- PROFILE -->
+
+        {% if user.is_authenticated %}
+
+        <div class="relative group">
+
+            <div class="w-12 h-12 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-black text-lg shadow-xl cursor-pointer">
+
+                {% if user.first_name and user.last_name %}
+
+                    {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+
+                {% elif user.first_name %}
+
+                    {{ user.first_name|slice:":2"|upper }}
+
+                {% else %}
+
+                    {{ user.username|slice:":2"|upper }}
+
+                {% endif %}
+
+            </div>
+
+            <!-- DROPDOWN -->
+
+            <div class="absolute right-0 mt-3 w-52 bg-white rounded-2xl shadow-2xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 overflow-hidden">
+
+                <div class="px-5 py-4 border-b border-slate-100">
+
+                    <p class="font-black text-slate-900 text-sm">
+                        {{ user.username }}
+                    </p>
+
+                    <p class="text-xs text-slate-400">
+                        Logged In
+                    </p>
+
+                </div>
+
+                <a href="/logout/"
+                   class="block px-5 py-4 text-sm font-bold text-red-500 hover:bg-red-50 transition-all">
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <a href="/"
+           class="bg-red-500 text-white px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-600 transition-all">
+
+            Login
+
+        </a>
+
+        {% endif %}
+
+        <!-- BACK -->
+
+        <a href="/"
+           class="bg-slate-900 text-white px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-500 transition-all">
+
+            ← Back
+
+        </a>
+
+    </div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero-bg h-[320px] relative overflow-hidden flex items-center">
+
+    <div class="max-w-7xl mx-auto px-6 md:px-16 w-full relative z-10">
+
+        <p class="uppercase text-red-500 font-black tracking-[0.3em] text-xs mb-5">
+            Featured Book
+        </p>
+
+        <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none max-w-4xl">
+
+            {{ book.title }}
+
+        </h1>
+
+        <p class="mt-6 text-slate-300 font-semibold text-lg">
+
+            By {{ book.author }}
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- MAIN CONTENT -->
+
+<section class="max-w-7xl mx-auto px-6 md:px-16 py-16">
+
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+        <!-- IMAGE -->
+
+        <div class="flex justify-center">
+
+            <div class="bg-white rounded-[2rem] p-8 shadow-2xl border border-slate-200 book-glow">
+
+                <img
+                    src="{{ rec_book.image_url_l }}"
+                    alt="{{ rec_book.title }}"
+                    class="recommended-image"
+                >
+
+            </div>
+
+        </div>
+
+        <!-- DETAILS -->
+
+        <div>
+
+            <div class="flex items-center gap-4 mb-6">
+
+                <div class="bg-yellow-400 text-black px-5 py-2 rounded-xl font-black shadow-lg">
+                    ★ 4.8
+                </div>
+
+                <div class="bg-green-100 text-green-700 px-5 py-2 rounded-xl font-black text-sm">
+                    Bestseller
+                </div>
+
+            </div>
+
+            <h2 class="text-5xl font-black text-slate-900 leading-tight mb-6">
+
+                {{ book.title }}
+
+            </h2>
+
+            <p class="text-xl text-slate-500 font-semibold mb-8">
+
+                Written by {{ book.author }}
+
+            </p>
+
+            <div class="bg-white rounded-3xl p-8 shadow-xl border border-slate-200 mb-8">
+
+                <h3 class="text-xl font-black mb-5 text-slate-900 uppercase tracking-tight">
+                    About This Book
+                </h3>
+
+                <p class="text-slate-600 leading-relaxed text-lg">
+
+                    {{ book.description|default:"This book is one of the most popular and highly recommended titles available in our collection. Dive into an immersive reading experience filled with unforgettable storytelling, emotional depth, and engaging characters." }}
+
+                </p>
+
+            </div>
+
+            <!-- BUTTONS -->
+
+          <!-- RATING SYSTEM -->
+
+<div class="mb-8 bg-white rounded-3xl p-6 shadow-xl border border-slate-200">
+
+    <h3 class="text-xl font-black mb-5 text-slate-900">
+        Rate This Book
+    </h3>
+
+    <!-- STARS -->
+
+    <div class="flex gap-3 mb-6">
+
+        <button
+            onclick="setRating(1)"
+            id="star1"
+            class="text-4xl text-gray-300 hover:scale-125 transition-all"
+        >
+            ★
+        </button>
+
+        <button
+            onclick="setRating(2)"
+            id="star2"
+            class="text-4xl text-gray-300 hover:scale-125 transition-all"
+        >
+            ★
+        </button>
+
+        <button
+            onclick="setRating(3)"
+            id="star3"
+            class="text-4xl text-gray-300 hover:scale-125 transition-all"
+        >
+            ★
+        </button>
+
+        <button
+            onclick="setRating(4)"
+            id="star4"
+            class="text-4xl text-gray-300 hover:scale-125 transition-all"
+        >
+            ★
+        </button>
+
+        <button
+            onclick="setRating(5)"
+            id="star5"
+            class="text-4xl text-gray-300 hover:scale-125 transition-all"
+        >
+            ★
+        </button>
+
+    </div>
+
+    <!-- REVIEW -->
+
+    <textarea
+        id="reviewInput"
+        placeholder="Write your review (optional)..."
+        class="w-full h-32 rounded-2xl border border-slate-300 p-4 outline-none focus:ring-2 focus:ring-red-400 resize-none mb-5"
+    ></textarea>
+
+    <!-- SUBMIT -->
+
+    <button
+        onclick="submitRating()"
+        class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-2xl font-black shadow-lg transition-all hover:scale-105"
+    >
+
+        Submit Rating
+
+    </button>
+
+</div>
+            <!-- <div class="flex flex-wrap gap-4">
+
+                <button class="bg-red-500 hover:bg-red-600 text-white px-10 py-4 rounded-2xl font-black shadow-2xl transition-all hover:scale-105">
+
+                    Add To Cart
+
+                </button>
+
+                <button class="bg-slate-900 hover:bg-black text-white px-10 py-4 rounded-2xl font-black transition-all hover:scale-105">
+
+                    Wishlist
+
+                </button>
+
+            </div> -->
+
+            <!-- EXTRA STATS -->
+
+            <div class="grid grid-cols-3 gap-4 mt-10">
+
+                <div class="bg-white rounded-2xl p-5 shadow-lg border border-slate-200">
+
+                    <p class="text-slate-400 text-xs uppercase font-black mb-2">
+                        Readers
+                    </p>
+
+                    <h4 class="text-2xl font-black text-slate-900">
+                        1M+
+                    </h4>
+
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-lg border border-slate-200">
+
+                    <p class="text-slate-400 text-xs uppercase font-black mb-2">
+                        Rating
+                    </p>
+
+                    <h4 class="text-2xl font-black text-slate-900">
+                        4.8
+                    </h4>
+
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-lg border border-slate-200">
+
+                    <p class="text-slate-400 text-xs uppercase font-black mb-2">
+                        Format
+                    </p>
+
+                    <h4 class="text-2xl font-black text-slate-900">
+                        Ebook
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="bg-[#FFD700] text-slate-900 pt-12 pb-6 px-6 md:px-16 mt-16 border-t border-black/5">
+
+    <div class="max-w-7xl mx-auto">
+
+        <div class="flex flex-col md:flex-row justify-between gap-10">
+
+            <div>
+
+                <div class="flex items-center gap-3 mb-4">
+
+                    <div class="bg-black text-[#FFD700] font-black p-2 rounded-lg w-10 h-10 flex items-center justify-center">
+                        D
+                    </div>
+
+                    <span class="font-black text-2xl tracking-tighter uppercase">
+                        The Doodles
+                    </span>
+
+                </div>
+
+                <p class="text-sm font-semibold opacity-70 max-w-md">
+
+                    Discover amazing books and futuristic reading experiences with BookAI.
+
+                </p>
+
+            </div>
+
+            <div class="flex gap-4">
+
+                <button class="w-12 h-12 rounded-full bg-black text-[#FFD700] font-black hover:scale-110 transition-all">
+                    f
+                </button>
+
+                <button class="w-12 h-12 rounded-full bg-black text-[#FFD700] font-black hover:scale-110 transition-all">
+                    X
+                </button>
+
+                <button class="w-12 h-12 rounded-full bg-black text-[#FFD700] font-black hover:scale-110 transition-all">
+                    ig
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="border-t border-black/10 mt-10 pt-5 flex justify-between items-center">
+
+            <p class="text-[10px] font-black uppercase tracking-widest">
+                © 2026 | Crafted with ❤️ by THE DOODLES
+            </p>
+
+            <div class="text-[9px] font-black opacity-30">
+                BOOKAI ENTERPRISE
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+ <!-- TOAST -->
+
+<div
+    id="toast"
+    class="hidden fixed bottom-8 right-8 z-[99999] bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl border border-white/10 font-black text-sm toast"
+>
+
+    Success
+
+</div>
+
+<script>
+
+let selectedRating = 0;
+
+function setRating(rating) {
+
+    selectedRating = rating;
+
+    for (let i = 1; i <= 5; i++) {
+
+        const star =
+            document.getElementById(`star${i}`);
+
+        if (i <= rating) {
+
+            star.classList.remove("text-gray-300");
+
+            star.classList.add("text-yellow-400");
+
+        } else {
+
+            star.classList.remove("text-yellow-400");
+
+            star.classList.add("text-gray-300");
+        }
+    }
+}
+
+/* ========================================= */
+/* TOAST FUNCTION */
+/* ========================================= */
+
+function showToast(message, success=true) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.classList.remove("hidden");
+
+    if(success){
+
+        toast.classList.remove(
+            "bg-red-500"
+        );
+
+        toast.classList.add(
+            "bg-emerald-500"
+        );
+
+    } else {
+
+        toast.classList.remove(
+            "bg-emerald-500"
+        );
+
+        toast.classList.add(
+            "bg-red-500"
+        );
+    }
+
+    setTimeout(() => {
+
+        toast.classList.add("hidden");
+
+    }, 3000);
+}
+
+/* ========================================= */
+/* SUBMIT RATING */
+/* ========================================= */
+
+async function submitRating() {
+
+    try {
+
+        if (selectedRating === 0) {
+
+            showToast(
+                "Please select a rating ⭐",
+                false
+            );
+
+            return;
+        }
+
+        const review = document
+            .getElementById("reviewInput")
+            .value;
+
+        const response = await fetch(
+
+            "/rate-book/",
+
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json",
+                },
+
+                body: JSON.stringify({
+
+                    book_id:
+                        "{{ book.id }}",
+
+                    rating:
+                        selectedRating,
+
+                    review:
+                        review
+                })
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server error"
+            );
+        }
+
+        const data =
+            await response.json();
+
+        if (data.status === "success") {
+
+            showToast(
+                "❤️ Thanks for rating this book!"
+            );
+
+            document
+                .getElementById(
+                    "reviewInput"
+                ).value = "";
+
+        } else {
+
+            showToast(
+
+                data.message ||
+                "Something went wrong",
+
+                false
+            );
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "❌ Error submitting rating",
+            false
+        );
+    }
+}
+
+</script>
+<!-- ========================================= -->
+<!-- ========================================= -->
+<!-- RECOMMENDED BOOKS -->
+<!-- ========================================= -->
+
+<section class="recommendation-section">
+
+    <h2 class="recommended-title">
+        Recommended For You
+    </h2>
+
+    <div class="recommendation-scroll">
+
+        {% for rec_book in recommended_books %}
+
+        <a href="/book/{{ rec_book.id }}/"
+           class="recommendation-card">
+
+            <img
+                src="{{ rec_book.image_url_l }}"
+                alt="{{ rec_book.title }}"
+                class="recommended-image"
+            >
+
+            <h4>
+                {{ rec_book.title }}
+            </h4>
+
+            <p>
+                {{ rec_book.author }}
+            </p>
+
+        </a>
+
+        {% empty %}
+
+        <p>
+            No recommendations available.
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+</body>
+</html>

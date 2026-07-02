@@ -1,0 +1,26 @@
+{
+    "john_doe": {
+        "password": "hashed_password_here",
+        "email": "john@example.com",
+        "coins": 1250,
+        "wishlist": [
+            {"id": "101", "title": "The Great Gatsby", "added_at": "2026-04-23"},
+            {"id": "205", "title": "Atomic Habits", "added_at": "2026-04-24"}
+        ],
+        "rated_books": {
+            "101": 5,
+            "302": 4
+        },
+        "books_read": 15,
+        "join_date": "2026-01-10"
+    },
+    "doodle_fan": {
+        "password": "password123",
+        "email": "fan@doodle.com",
+        "coins": 50,
+        "wishlist": [],
+        "rated_books": {},
+        "books_read": 0,
+        "join_date": "2026-04-23"
+    }
+}

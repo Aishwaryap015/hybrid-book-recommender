@@ -1,0 +1,22 @@
+digraph {
+	A [label=User]
+	B [label="Collaborative Filtering"]
+	C [label="Content-Based Filtering"]
+	D [label=KNN]
+	E [label="Pearson Correlation"]
+	F [label="Centered Cosine"]
+	G [label="TF-IDF + Cosine Similarity"]
+	H [label="Hybrid Recommendation Engine"]
+	I [label="Personalized Books"]
+	A -> B
+	A -> C
+	B -> D
+	B -> E
+	B -> F
+	C -> G
+	D -> H
+	E -> H
+	F -> H
+	G -> H
+	H -> I
+}

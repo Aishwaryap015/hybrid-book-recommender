@@ -1,0 +1,326 @@
+/* ---------- BODY ---------- */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f5f5;
+}
+
+/* ---------- NAVBAR ---------- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* ---------- SEARCH ---------- */
+.search-bar input {
+    padding: 8px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+#carousel {
+    display: flex;
+    width: 100%;
+}
+
+#carousel img {
+    width: 100%;
+    flex-shrink: 0;
+}
+/* ---------- BUTTON ---------- */
+.login-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: white;
+    text-align: center;
+    padding: 50px;
+}
+
+/* ---------- SECTION ---------- */
+.section {
+    padding: 20px;
+}
+
+/* ---------- CAROUSEL ---------- */
+.carousel {
+    display: flex;
+    overflow-x: auto;
+}
+
+/* ---------- CARD ---------- */
+.card {
+    background: white;
+    min-width: 180px;
+    margin: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+}
+
+.card p {
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* ---------- LOADER ---------- */
+#loader {
+    display: none;
+    text-align: center;
+    margin: 20px;
+}
+
+@keyframes toastSlide {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(30px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+.animate-toast {
+
+    animation: toastSlide 0.35s ease;
+}
+
+/* LIGHT THEME */
+
+.theme-light {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+.theme-light nav,
+.theme-light .glass-nav,
+.theme-light .glass-card {
+    background: white !important;
+    color: black !important;
+}
+
+
+/* DARK THEME */
+
+.theme-light {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+.theme-dark {
+    background: #020617 !important;
+    color: white !important;
+}
+
+.theme-reader {
+    background: #fdf6e3 !important;
+    color: #3b2f2f !important;
+}
+
+body {
+    transition: background 0.35s ease, color 0.35s ease;
+}
+
+.theme-light {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+.theme-dark {
+    background: #020617 !important;
+    color: white !important;
+}
+
+.theme-reader {
+    background: #fef3c7 !important;
+    color: #3b2f1e !important;
+}
+
+.theme-pink {
+    background: #ffe4e6 !important;
+    color: #3b0764 !important;
+}
+
+.toast{
+
+    animation: toastSlide .4s ease;
+}
+
+@keyframes toastSlide{
+
+    from{
+        opacity:0;
+        transform:translateY(80px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+/* =========================================
+RECOMMENDED BOOKS
+========================================= */
+
+.recommended-section {
+
+    margin-top: 60px;
+    padding: 20px;
+}
+
+.recommended-title {
+
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.recommended-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+
+    gap: 25px;
+}
+
+.recommended-card {
+
+    text-decoration: none;
+    color: black;
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 15px;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.08);
+
+    transition: 0.3s ease;
+}
+
+.recommended-card:hover {
+
+    transform: translateY(-6px);
+}
+
+.recommended-image {
+
+    width: 100%;
+    height: 260px;
+
+    object-fit: cover;
+
+    border-radius: 15px;
+}
+
+.recommended-card h4 {
+
+    margin-top: 12px;
+    font-size: 16px;
+}
+
+.recommended-card p {
+
+    color: #666;
+    font-size: 14px;
+}
+/* =====================================
+RECOMMENDATION SECTION
+===================================== */
+
+.recommendation-section {
+
+    margin-top: 50px;
+    padding: 20px;
+}
+
+.recommendation-scroll {
+
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+
+    padding: 15px 0;
+
+    scroll-behavior: smooth;
+}
+
+.recommendation-scroll::-webkit-scrollbar {
+
+    height: 8px;
+}
+
+.recommendation-card {
+
+    min-width: 180px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 12px;
+
+    text-decoration: none;
+    color: black;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,0.08);
+
+    transition: .3s;
+}
+
+.recommendation-card:hover {
+
+    transform: translateY(-5px);
+}
+
+.recommendation-card img {
+
+    width: 100%;
+    height: 240px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+}
+
+.recommendation-card h4 {
+
+    margin-top: 10px;
+    font-size: 15px;
+}

@@ -1,0 +1,2007 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookAI 🚀 | Neural Literary Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <meta name="referrer" content="no-referrer">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+    <style>
+        :root { 
+            --sidebar-width: 450px; 
+            --accent-red: #ef4444; 
+            --neural-dark: #0f172a; 
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; background-color: #ffffff; }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        
+      .line-clamp-1 {
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 1;
+
+    line-clamp: 1;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+<!-- DYNAMIC ANNOUNCEMENT TICKER -->
+<div class="w-full bg-slate-950 py-2.5 overflow-hidden border-b border-white/5 relative flex items-center">
+    <!-- Static Label for "Neural Sync" to keep the brand visible -->
+    <div class="absolute left-0 z-20 bg-slate-950 px-6 md:px-10 h-full flex items-center border-r border-white/10 shadow-[10px_0_15px_rgba(0,0,0,0.5)]">
+        <span class="text-red-500 text-[10px] font-black uppercase tracking-[0.3em] animate-pulse">Neural Sync</span>
+    </div>
+{% csrf_token %}
+    <!-- Scrolling Content -->
+    <div class="flex whitespace-nowrap animate-ticker">
+        <p class="text-[11px] font-bold text-white uppercase tracking-[0.2em] flex items-center gap-12 px-12">
+            <span>🚀 10,000+ Nodes Active Across Bihar Research Hub</span>
+            <span class="opacity-30">•</span>
+            <span>⚡ Quantum Literacy Initiative: Phase 2 Live</span>
+            <span class="opacity-30">•</span>
+            <span>🌐 Real-time Data Stream Synced with GEC Arwal Mainframe</span>
+            <span class="opacity-30">•</span>
+            <span>💎 The Doodles: Revolutionizing the Literary Digital Space</span>
+            <span class="opacity-30">•</span>
+            <!-- Duplicate for seamless loop -->
+            <span>🚀 10,000+ Nodes Active Across Bihar Research Hub</span>
+            <span class="opacity-30">•</span>
+            <span>⚡ Quantum Literacy Initiative: Phase 2 Live</span>
+        </p>
+    </div>
+</div>
+
+<style>
+    @keyframes ticker {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .animate-ticker {
+        animation: ticker 30s linear infinite;
+    }
+    /* Pause animation on hover for better readability */
+    .animate-ticker:hover {
+        animation-play-state: paused;
+    }
+</style>
+
+<nav class="glass-nav sticky top-0 z-[500] border-b border-slate-200 px-6 md:px-16 py-4 flex items-center justify-between ">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='/'">
+        <div class="w-10 h-10 bg-red-500 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/20">
+            <span class="text-white font-black text-xs">AI</span>
+        </div>
+        <div class="leading-none">
+            <span class="text-xl font-extrabold text-slate-900 tracking-tighter">BookAI</span>
+            <span class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mt-0.5">Enterprise v4.2</span>
+        </div>
+    </div>
+
+    <div class="flex-1 flex justify-center">
+    <div class="w-full max-w-2xl relative group">
+    <!-- Added id="dynamic-search" -->
+  <form method="GET" action="/">
+
+    <input
+        type="text"
+        name="q"
+        id="dynamic-search"
+        placeholder="Search ISBN, title, author, category"
+        value="{{ query }}"
+        class="w-full bg-slate-100 border-none rounded-lg py-3 px-12 text-sm font-semibold outline-none"
+    >
+
+    {% if query %}
+<a href="/" class="absolute right-4 top-1/2 -translate-y-1/2 text-xl">
+    ❌
+</a>
+{% endif %}
+
+    <span class="absolute left-4 top-1/2 -translate-y-1/2 opacity-30">
+        🔍
+    </span>
+
+</form>
+
+</div>
+</div>
+
+<script>
+    const searchInput = document.getElementById('dynamic-search');
+    const phrases = [
+        "Search for ISBN, Book Name...",
+        "Search for Authors, Genres...",
+        "Search for Best Sellers...",
+        "Search for Manga & Comics...",
+        "Search for New Arrivals..."
+    ];
+    
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typeSpeed = 100;
+
+    function typeEffect() {
+        const currentPhrase = phrases[phraseIndex];
+        
+        if (isDeleting) {
+            // Deleting text
+            searchInput.placeholder = currentPhrase.substring(0, charIndex--);
+            typeSpeed = 50;
+        } else {
+            // Typing text
+            searchInput.placeholder = currentPhrase.substring(0, charIndex++);
+            typeSpeed = 150;
+        }
+
+        if (!isDeleting && charIndex === currentPhrase.length + 1) {
+            // Pause at the end of phrase
+            isDeleting = true;
+            typeSpeed = 2000; 
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            typeSpeed = 500;
+        }
+
+        setTimeout(typeEffect, typeSpeed);
+    }
+
+    // Start the effect
+    window.onload = typeEffect;
+</script>
+<div class="flex items-center justify-center gap-5 min-w-[170px]">
+
+    <!-- Gift Icon -->
+ <button
+   onclick="showToast('🎁 Doodle Coinbox feature coming soon!')"
+    class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-yellow-400 transition-all duration-300 text-xl rounded-full hover:bg-slate-100 hover:scale-110">
+
+    🎁
+
+</button>
+
+    <!-- Profile Dropdown -->
+    <div class="relative group">
+
+        <button
+            id="navProfileBtn"
+            class="w-12 h-12 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-black text-lg shadow-xl hover:scale-110 transition-all duration-300 overflow-hidden"
+        >
+
+            {% if user.is_authenticated %}
+
+                {% if user.first_name and user.last_name %}
+
+                    {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+
+                {% elif user.first_name %}
+
+                    {{ user.first_name|slice:":2"|upper }}
+
+                {% else %}
+
+                    {{ user.username|slice:":2"|upper }}
+
+                {% endif %}
+
+            {% else %}
+
+                U
+
+            {% endif %}
+
+        </button>
+
+        <!-- Dropdown Menu -->
+        {% if user.is_authenticated %}
+
+        <div class="absolute right-0 mt-3 w-52 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 overflow-hidden">
+
+            <div class="px-4 py-3 border-b border-slate-700">
+
+                <p class="text-[10px] uppercase tracking-widest text-slate-400">
+                    Logged in as
+                </p>
+
+                <p class="text-white text-sm font-semibold truncate">
+                    {{ user.username }}
+                </p>
+
+            </div>
+
+            <a
+                href="/logout/"
+                class="block px-4 py-3 text-sm text-red-400 hover:bg-slate-800 transition-colors"
+            >
+                🚪 Logout
+            </a>
+
+        </div>
+
+        {% else %}
+
+     
+
+        {% endif %}
+
+    </div>
+
+
+
+</div>
+<!-- Preference Modal (Add this to the end of your body) -->
+<div id="prefModal" class="fixed inset-0 bg-black/80 z-[10000] hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-white/10 p-6 rounded-3xl max-w-md w-full">
+        <h2 class="text-white font-black text-center mb-4">PICK YOUR INTERESTS (SELECT 3)</h2>
+        <div id="pref-list" class="grid grid-cols-2 gap-2 h-64 overflow-y-auto mb-4 p-2">
+            <!-- You can loop through books here or add dummy buttons -->
+            <button onclick="this.classList.toggle('bg-yellow-500')" class="border border-white/20 p-2 text-xs text-white rounded-lg">Fantasy</button>
+            <button onclick="this.classList.toggle('bg-yellow-500')" class="border border-white/20 p-2 text-xs text-white rounded-lg">Sci-Fi</button>
+            <button onclick="this.classList.toggle('bg-yellow-500')" class="border border-white/20 p-2 text-xs text-white rounded-lg">Mystery</button>
+            <button onclick="this.classList.toggle('bg-yellow-500')" class="border border-white/20 p-2 text-xs text-white rounded-lg">History</button>
+        </div>
+        <button onclick="window.showToast('PREFERENCE SAVED!', () => document.getElementById('prefModal').classList.add('hidden'))" 
+                class="w-full bg-[#f1b40e] text-black font-black py-3 rounded-xl uppercase text-xs">
+            Save & Continue
+        </button>
+    </div>
+</div>
+        <!-- ========================================= -->
+<!-- THE DYNAMIC NAV-VAULT -->
+<!-- Replace your old Ellipsis Dropdown section -->
+<!-- ========================================= -->
+
+<div class="relative inline-block text-left">
+
+    <!-- ========================================= -->
+    <!-- MAIN ELLIPSIS MENU BUTTON -->
+    <!-- ========================================= -->
+  <button id="menuButton" class="w-10 h-10 flex items-center justify-center text-slate-900 hover:bg-slate-100 rounded-full transition-all active:scale-95">
+
+        <!-- Three Dots SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="1"></circle>
+            <circle cx="19" cy="12" r="1"></circle>
+            <circle cx="5" cy="12" r="1"></circle>
+        </svg>
+
+    </button>
+
+    <!-- ========================================= -->
+    <!-- MAIN DROPDOWN CONTAINER -->
+    <!-- ========================================= -->
+    <div id="dropdownMenu" class="hidden absolute right-0 mt-3 w-72 origin-top-right bg-slate-900 border border-white/10 rounded-2xl shadow-2xl z-50 backdrop-blur-xl overflow-hidden">
+
+        <!-- ========================================= -->
+        <!-- MENU HEADER -->
+        <!-- ========================================= -->
+    <div class="relative flex items-center justify-center px-4 py-4 border-b border-white/10">
+
+    <!-- Back Button -->
+    <button
+        id="backBtn"
+        class="absolute left-4 hidden text-[11px] font-black text-slate-400 hover:text-white">
+
+        ← BACK
+
+    </button>
+
+    <!-- Dynamic Menu Title -->
+    <h2
+        id="menuTitle"
+        class="text-sm font-black text-center text-white tracking-[0.2em] uppercase">
+
+        Main Menu
+
+    </h2>
+
+    <!-- Close Button -->
+    <button
+        id="closeMenu"
+        class="absolute right-4 text-slate-400 hover:text-red-400 text-xl">
+
+        ×
+
+    </button>
+
+</div>
+
+        <!-- ========================================= -->
+        <!-- DYNAMIC CONTENT AREA -->
+        <!-- Content gets injected here -->
+        <!-- ========================================= -->
+        <div id="menuContent" class="p-2 transition-all duration-300"></div>
+
+    </div>
+</div>
+
+</div>
+</nav>
+
+<!-- ========================================= -->
+<!-- JAVASCRIPT -->
+<!-- Replace your old script block -->
+<!-- ========================================= -->
+
+<script>
+
+    const menuContent = document.getElementById('menuContent');
+    const menuTitle = document.getElementById('menuTitle');
+    const backBtn = document.getElementById('backBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const menuButton = document.getElementById('menuButton');
+    const closeMenu = document.getElementById('closeMenu');
+
+    /* ========================================= */
+    /* MENU VIEWS */
+    /* Different Pages Inside Dropdown */
+    /* ========================================= */
+
+    const views = {
+
+        /* MAIN MENU */
+        main: () => `
+
+        
+        
+            <div class="space-y-1">
+
+                <button onclick="setView('register')" class="flex w-full items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-white/5 rounded-xl transition-all">
+                    <span class="opacity-50">👤</span> Your Profile / Register
+                </button>
+
+                <button onclick="setView('settings')" class="flex w-full items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-white/5 rounded-xl transition-all">
+                    <span class="opacity-50">⚙️</span> Library Settings
+                </button>
+
+                <button onclick="showMyLibrary()"
+    class="flex w-full items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-white/5 rounded-xl">
+    <span>📚</span> My Library
+</button>
+
+                <button onclick="setView('history')" class="flex w-full items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-white/5 rounded-xl transition-all">
+                    <span class="opacity-50">📖</span> Reading History
+                </button>
+
+            </div>
+            
+        `
+        
+        ,
+
+    settings: () => `
+
+    <div class="space-y-4">
+
+        <h2 class="text-lg font-black text-white tracking-widest uppercase">
+            Library Settings
+        </h2>
+
+        <!-- Theme Buttons -->
+
+        <div class="grid grid-cols-3 gap-3">
+
+            <button
+                onclick="setTheme('light')"
+                class="py-3 rounded-xl bg-white text-black font-bold hover:scale-105 transition">
+
+                ☀️ LIGHT
+
+            </button>
+
+            <button
+                onclick="setTheme('dark')"
+                class="py-3 rounded-xl bg-slate-800 text-white font-bold hover:scale-105 transition">
+
+                🌙 DARK
+
+            </button>
+
+            <button
+                onclick="setTheme('reader')"
+                class="py-3 rounded-xl bg-amber-100 text-black font-bold hover:scale-105 transition">
+
+                📖 READER
+
+            </button>
+
+        </div>
+
+        <!-- Reader Mode -->
+
+        <button
+           onclick="setTheme('pink')"
+            class="w-full py-3 rounded-xl bg-amber-100 hover:bg-amber-200 transition font-bold text-black">
+
+           🌸 Night Light 
+
+        </button>
+
+        <!-- Auto Sync -->
+
+        <button
+            onclick="autoSyncLibrary()"
+            class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 transition font-bold text-white">
+
+            🔄 Auto Sync Library
+
+        </button>
+
+        <!-- Coinbox -->
+
+       
+
+    </div>
+
+`,
+
+     /* REGISTER VIEW */
+register: () => `
+    <!-- Hidden CSRF Token for JavaScript to grab -->
+    <div id="csrf-container" style="display:none;">{% csrf_token %}</div>
+    <div style="display:none;">{% csrf_token %}</div>
+    <form id="register-form" class="p-2 space-y-4 animate-in slide-in-from-right duration-300">
+        <div class="flex flex-col gap-3">
+            <input type="text" id="reg-first" name="first_name" placeholder="First Name" 
+                class="bg-[#fff9c4] border-none rounded-xl p-3.5 text-xs text-slate-900 font-bold uppercase outline-none">
+            
+            <input type="text" id="reg-last" name="last_name" placeholder="Last Name" 
+                class="bg-[#fff9c4] border-none rounded-xl p-3.5 text-xs text-slate-900 font-bold uppercase outline-none">
+            
+            <input type="email" id="reg-email" name="email" placeholder="user@example.com" 
+                class="bg-[#fff9c4] border-none rounded-xl p-3.5 text-xs text-slate-900 font-bold outline-none">
+
+            <div class="relative">
+                <input type="password" id="reg-pass" name="password" placeholder="Password (e.g. Abcd@5)" 
+                    class="w-full bg-[#fff9c4] border-none rounded-xl p-3.5 text-xs text-slate-900 font-bold outline-none">
+                <button type="button" onclick="togglePass('reg-pass', this)" class="absolute right-3 top-2.5 text-lg">🙈</button>
+            </div>
+
+            <input type="password" id="reg-confirm" placeholder="Confirm Password" 
+                class="bg-[#fff9c4] border-none rounded-xl p-3.5 text-xs text-slate-900 font-bold outline-none">
+        </div>
+
+        <button type="button" onclick="submitRegister()" 
+            class="w-full bg-[#f1b40e] text-black font-black py-4 rounded-xl text-[11px] uppercase tracking-widest shadow-lg">
+            Register Now
+        </button>
+
+        <div class="flex flex-col gap-2 pt-2">
+            <button type="button" onclick="setView('login')"
+                class="text-[10px] text-slate-400 hover:text-white uppercase font-black text-left w-fit">
+                Already Registered? Login
+            </button>
+            <button type="button" onclick="submitGuest()" 
+                class="text-[10px] text-yellow-500 hover:text-yellow-400 uppercase font-black text-left w-fit">
+                Login as a Guest User
+            </button>
+        </div>
+    </form>
+`,
+
+/* LOGIN VIEW */
+login: () => `
+    <div class="p-2 space-y-4 animate-in slide-in-from-left duration-300">
+        <div class="flex flex-col gap-3" id="login-container">
+            <input type="text" id="login-user" placeholder="user@example.com" 
+                class="bg-slate-800 border-none rounded-xl p-3.5 text-xs text-white outline-none">
+            
+            <div class="relative">
+                <input type="password" id="login-pass" placeholder="Password" 
+                    class="w-full bg-slate-800 border-none rounded-xl p-3.5 text-xs text-white outline-none">
+                <button type="button" onclick="togglePass('login-pass', this)" class="absolute right-3 top-2.5 text-lg">🙈</button>
+            </div>
+            
+            <button onclick="showForgot()" class="text-[10px] text-yellow-500 hover:text-yellow-400 uppercase font-black text-right">
+                Forgot password?
+            </button>
+        </div>
+
+        <div class="space-y-2">
+            <button onclick="submitLogin()" 
+                class="w-full bg-white text-black font-black py-4 rounded-xl text-[10px] uppercase shadow-lg active:scale-95 transition-transform">
+                Login with Credentials
+            </button>
+            
+            <button onclick="submitGuest()" 
+                class="w-full border border-[#f1b40e] text-[#f1b40e] font-black py-4 rounded-xl text-[10px] uppercase active:scale-95 transition-transform">
+                Login as Guest User
+            </button>
+        </div>
+
+        <button onclick="setView('register')"
+            class="text-[10px] text-slate-400 hover:text-white uppercase font-black pt-2 block">
+            New here? Create Account
+        </button>
+    </div>
+`,
+
+        /* SETTINGS VIEW */
+       
+
+        /* READING HISTORY VIEW */
+        history: () => `
+            <div class="p-2 space-y-2 max-h-64 overflow-y-auto">
+
+                <div class="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/5">
+
+                    <div class="w-10 h-12 bg-slate-800 rounded flex items-center justify-center text-lg">
+                        📖
+                    </div>
+
+                    <div>
+                        <p class="text-xs text-white font-bold">The Art of Focus</p>
+                        <p class="text-[9px] text-slate-500 uppercase tracking-tighter">
+                            Read: 2 hours ago
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/5 opacity-60">
+
+                    <div class="w-10 h-12 bg-slate-800 rounded flex items-center justify-center text-lg">
+                        📙
+                    </div>
+
+                    <div>
+                        <p class="text-xs text-white font-bold">Neural Sync Guide</p>
+                        <p class="text-[9px] text-slate-500 uppercase tracking-tighter">
+                            Read: Yesterday
+                        </p>
+                    </div>
+
+                </div>
+
+               <button
+onclick="localStorage.removeItem('reading_history'); location.reload();"
+class="w-full py-2 text-[10px] text-slate-500 hover:text-red-400 font-black uppercase">
+
+Clear All History
+
+</button>
+
+            </div>
+        `
+    };
+
+    /* ========================================= */
+    /* CHANGE VIEW FUNCTION */
+    /* ========================================= */
+
+    function setView(viewName) {
+
+        menuContent.innerHTML = views[viewName]();
+
+        if(viewName === 'main') {
+
+            menuTitle.innerText = "Main Menu";
+            backBtn.classList.add('hidden');
+
+        } else {
+
+            menuTitle.innerText = viewName.toUpperCase();
+            backBtn.classList.remove('hidden');
+
+        }
+    }
+
+    /* ========================================= */
+    /* TOGGLE MENU */
+    /* ========================================= */
+
+    menuButton.addEventListener('click', (e) => {
+
+        e.stopPropagation();
+
+        dropdownMenu.classList.toggle('hidden');
+
+        setView('main');
+
+    });
+
+    /* BACK BUTTON */
+    backBtn.addEventListener('click', () => setView('main'));
+
+    /* CLOSE BUTTON */
+    closeMenu.addEventListener('click', () => dropdownMenu.classList.add('hidden'));
+
+    /* CLOSE WHEN CLICK OUTSIDE */
+    window.addEventListener('click', () => dropdownMenu.classList.add('hidden'));
+
+    dropdownMenu.addEventListener('click', (e) => e.stopPropagation());
+
+    /* INITIALIZE */
+    setView('main');
+
+</script>
+
+<!-- ========================================= -->
+<!-- CSS ANIMATIONS -->
+<!-- Add this inside your style block -->
+<!-- ========================================= -->
+
+<style>
+
+    /* MENU OPENING ANIMATION */
+    @keyframes menuFadeIn {
+
+        from {
+            opacity: 0;
+            transform: scale(0.95) translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    /* APPLY ANIMATION */
+    #dropdownMenu:not(.hidden) {
+        animation: menuFadeIn 0.2s ease-out forwards;
+    }
+
+    /* CUSTOM SCROLLBAR */
+    #menuContent::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    #menuContent::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+</style>
+ <!-- DYNAMIC HERO SECTION -->
+
+<section class="relative mx-4 md:mx-12 my-6 h-[320px] overflow-hidden bg-slate-900 rounded-[2rem] shadow-xl group">
+
+<!-- Dynamic Background Image Slider -->
+
+<div class="absolute inset-0">
+
+<img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1600"
+
+id="dynamicHeroImg"
+
+class="w-full h-full object-cover opacity-40 transition-all duration-[2000ms] ease-in-out scale-110 group-hover:scale-100"
+
+alt="Library Background">
+
+<div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/60 to-transparent"></div>
+
+</div>
+
+
+<!-- Content Overlay -->
+
+<div class="relative h-full flex flex-col justify-center px-10 md:px-16 max-w-4xl z-10">
+
+<!-- Neural Experience label removed -->
+
+<h2 class="text-white text-5xl md:text-6xl font-extrabold leading-[0.9] tracking-tighter mb-4">
+
+Beyond the <br>
+
+<span class="text-red-500">Covers !</span>
+
+</h2>
+
+
+<p class="text-slate-300 text-sm md:text-base font-medium max-w-md italic opacity-80 border-l-2 border-red-500 pl-4">
+
+"A reader lives a thousand lives before he dies. The man who never reads lives only one."
+
+</p>
+
+<!-- Start Discovery button removed -->
+
+</div>
+
+
+<!-- Stats Bar -->
+
+<div class="absolute bottom-0 w-full bg-slate-900/40 backdrop-blur-md py-3 px-10 flex justify-between items-center text-[9px] font-bold text-slate-400 uppercase tracking-widest border-t border-white/5">
+
+<div class="flex items-center gap-2"><span class="text-red-500">●</span> Fast Delivery</div>
+
+<div class="flex items-center gap-2"><span class="text-red-500">●</span> Authentic Metadata</div>
+
+<div class="flex items-center gap-2"><span class="text-red-500">●</span> 1 Lakh+ Readers</div>
+
+</div>
+
+</section>
+
+
+<!-- Logic for Automatic Image Looping -->
+
+<script>
+
+const libraryImages = [
+
+'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=95&w=1800', // Bright orange-blue aesthetic
+
+'https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?auto=format&fit=crop&q=95&w=1800', // Colorful stacked books
+
+'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=95&w=1800', // Vibrant open books
+
+'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&q=95&w=1800', // Bright modern library
+
+'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=95&w=1800', // Warm colorful reading
+
+'https://images.unsplash.com/photo-1519682577862-22b62b24e493?auto=format&fit=crop&q=95&w=1800', // Bright fantasy reading vibe
+
+'https://images.unsplash.com/photo-1526243741027-444d633d7365?auto=format&fit=crop&q=95&w=1800', // Rich colorful shelves
+
+'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=95&w=1800' // Eye-catching library hall
+
+];
+
+
+let currentIndex = 0;
+
+const heroImgElement = document.getElementById('dynamicHeroImg');
+
+
+function changeHeroImage() {
+
+// Increment index or reset to 0 if at end of array
+
+currentIndex = (currentIndex + 1) % libraryImages.length;
+
+// Add a slight fade-out effect during transition
+
+heroImgElement.style.opacity = '0';
+
+setTimeout(() => {
+
+heroImgElement.src = libraryImages[currentIndex];
+
+heroImgElement.style.opacity = '0.4';
+
+}, 1000); // Wait for fade out before changing src
+
+}
+
+
+// Run the loop every 5 seconds
+
+setInterval(changeHeroImage, 3000);
+
+</script> 
+<!-- MAIN CONTENT AREA -->
+<section class="px-6 md:px-16 mb-32 flex gap-10">
+    
+    <!-- ========================================= -->
+<!-- WORKING FILTER SIDEBAR -->
+<!-- Dynamic Expandable Filters -->
+<!-- ========================================= -->
+
+<!-- FILTER SIDEBAR -->
+
+<aside class="w-60 flex-shrink-0 hidden lg:block sticky top-24 self-start">
+
+    <!-- FILTER TITLE -->
+    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-5">
+        Filter
+    </h3>
+
+    <div class="border-t border-slate-100">
+
+        <!-- ========================================= -->
+        <!-- CATEGORY FILTER -->
+        <!-- ========================================= -->
+
+        <div class="border-b border-slate-100 py-5">
+
+            <button onclick="toggleFilter('categoryFilter')"
+                class="w-full flex justify-between items-center text-left">
+
+                <span class="font-bold text-slate-900 text-base">
+                    Category
+                </span>
+
+                <span class="text-slate-400 text-lg">
+                    ⌄
+                </span>
+
+            </button>
+
+            <div id="categoryFilter" class="mt-4 space-y-3">
+
+                <!-- Fiction -->
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input 
+                        type="checkbox"
+                       onchange="applyFilter('category', 'fiction')"
+                        {% if request.GET.category == 'fiction' %}checked{% endif %}
+                        class="accent-slate-900 w-4 h-4"
+                    >
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Fiction
+                    </span>
+
+                </label>
+
+                <!-- Mystery -->
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input 
+                        type="checkbox"
+                      onchange="applyFilter('category', 'mystery')"
+                        {% if request.GET.category == 'mystery' %}checked{% endif %}
+                        class="accent-slate-900 w-4 h-4"
+                    >
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Mystery
+                    </span>
+
+                </label>
+
+                <!-- Romance -->
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input 
+                        type="checkbox"
+                       onchange="applyFilter('category', 'romance')"
+                        {% if request.GET.category == 'romance' %}checked{% endif %}
+                        class="accent-slate-900 w-4 h-4"
+                    >
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Romance
+                    </span>
+
+                </label>
+
+                <!-- Self Help -->
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input 
+                        type="checkbox"
+                       onchange="applyFilter('category', 'selfhelp')"
+                        {% if request.GET.category == 'selfhelp' %}checked{% endif %}
+                        class="accent-slate-900 w-4 h-4"
+                    >
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Self Help
+                    </span>
+
+                </label>
+
+                <!-- RESET -->
+                <a href="/"
+                   class="block text-xs font-black uppercase text-red-500 pt-2">
+                   Reset Filters
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================= -->
+        <!-- SUB CATEGORY FILTER -->
+        <!-- ========================================= -->
+
+        <div class="border-b border-slate-100 py-5">
+
+            <button onclick="toggleFilter('subCategoryFilter')"
+                class="w-full flex justify-between items-center text-left">
+
+                <span class="font-bold text-slate-900 text-base">
+                    Sub Category
+                </span>
+
+                <span class="text-slate-400 text-lg">
+                    ⌄
+                </span>
+
+            </button>
+
+            <div id="subCategoryFilter" class="hidden mt-4 space-y-3">
+
+                <label class="flex items-center gap-3">
+
+                  <input 
+    type="checkbox"
+   onchange="applyFilter('category', 'thriller')"
+    class="accent-slate-900 w-4 h-4"
+>
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Thriller
+                    </span>
+
+                </label>
+
+                <label class="flex items-center gap-3">
+
+                  <input 
+    type="checkbox"
+   onchange="applyFilter('category', 'adventure')"
+    class="accent-slate-900 w-4 h-4"
+>
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Adventure
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================= -->
+        <!-- FORMAT FILTER -->
+        <!-- ========================================= -->
+
+        <div class="border-b border-slate-100 py-5">
+
+            <button onclick="toggleFilter('formatFilter')"
+                class="w-full flex justify-between items-center text-left">
+
+                <span class="font-bold text-slate-900 text-base">
+                    Format
+                </span>
+
+                <span class="text-slate-400 text-lg">
+                    ⌄
+                </span>
+
+            </button>
+
+            <div id="formatFilter" class="hidden mt-4 space-y-3">
+
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input 
+                        type="checkbox"
+                       onchange="applyFilter('category', 'ebook')"
+                        class="accent-slate-900 w-4 h-4"
+                    >
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Ebook
+                    </span>
+
+                </label>
+
+                <label class="flex items-center gap-3">
+
+                    <input type="checkbox" class="accent-slate-900 w-4 h-4">
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Hardcover
+                    </span>
+
+                </label>
+
+                <label class="flex items-center gap-3">
+
+                    <input type="checkbox" class="accent-slate-900 w-4 h-4">
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Paperback
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================= -->
+        <!-- LANGUAGE FILTER -->
+        <!-- ========================================= -->
+
+        <div class="border-b border-slate-100 py-5">
+
+            <button onclick="toggleFilter('languageFilter')"
+                class="w-full flex justify-between items-center text-left">
+
+                <span class="font-bold text-slate-900 text-base">
+                    Language
+                </span>
+
+                <span class="text-slate-400 text-lg">
+                    ⌄
+                </span>
+
+            </button>
+
+            <div id="languageFilter" class="hidden mt-4 space-y-3">
+
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input 
+                        type="checkbox"
+                       onchange="applyFilter('category', 'english')"
+                        class="accent-slate-900 w-4 h-4"
+                    >
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        English
+                    </span>
+
+                </label>
+
+                <label class="flex items-center gap-3 cursor-pointer">
+    <input 
+        type="checkbox"
+        onchange="applyFilter('language', 'hindi')"
+        {% if request.GET.language == 'hindi' %}checked{% endif %}
+        class="accent-slate-900 w-4 h-4"
+    >
+
+    <span class="text-[15px] font-bold text-slate-800">
+        Hindi
+    </span>
+</label>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================= -->
+        <!-- AUTHOR FILTER -->
+        <!-- ========================================= -->
+
+        <div class="py-5">
+
+            <button onclick="toggleFilter('authorFilter')"
+                class="w-full flex justify-between items-center text-left">
+
+                <span class="font-bold text-slate-900 text-base">
+                    Author
+                </span>
+
+                <span class="text-slate-400 text-lg">
+                    ⌄
+                </span>
+
+            </button>
+
+            <div id="authorFilter" class="hidden mt-4 space-y-3">
+
+                <!-- Rowling -->
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input 
+                        type="checkbox"
+                       onchange="applyFilter('category', 'Rowling')"
+                        class="accent-slate-900 w-4 h-4"
+                    >
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        J.K. Rowling
+                    </span>
+
+                </label>
+
+                <!-- Suzanne Collins -->
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input 
+                        type="checkbox"
+                       onchange="applyFilter('category', 'Collins')"
+                        class="accent-slate-900 w-4 h-4"
+                    >
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Suzanne Collins
+                    </span>
+
+                </label>
+
+                <!-- Stephenie Meyer -->
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input 
+                        type="checkbox"
+                      onchange="applyFilter('category', 'Meyer')"
+                        class="accent-slate-900 w-4 h-4"
+                    >
+
+                    <span class="text-[15px] font-bold text-slate-800">
+                        Stephenie Meyer
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+<!-- ========================================= -->
+<!-- ADD THIS INSIDE YOUR SCRIPT TAG -->
+<!-- ========================================= -->
+
+<script>
+
+function toggleFilter(filterId) {
+
+    function applyFilter(key, value) {
+
+    const url = new URL(window.location.href);
+
+    if (url.searchParams.get(key) === value) {
+
+        url.searchParams.delete(key);
+
+    } else {
+
+        url.searchParams.set(key, value);
+
+    }
+
+    window.location.href = url.toString();
+}
+
+    const filter = document.getElementById(filterId);
+
+    filter.classList.toggle('hidden');
+
+}
+
+</script>
+
+    <!-- HORIZONTAL SCROLLING SECTIONS -->
+    <div class="flex-1 space-y-12 overflow-hidden">
+        
+        <!-- SECTION 1: TOP RATED -->
+        <div class="relative group">
+           <div class="flex justify-between items-end mb-4">
+    
+    <h3 class="text-xl font-black text-slate-900 tracking-tight uppercase">
+       Top Rated
+    </h3>
+
+   <button 
+    onclick="toggleBooks()" 
+    id="seeAllBtn"
+    class="text-red-500 text-[10px] font-black uppercase hover:underline"
+>
+    See All ›
+</button>
+
+</div>
+         
+     <div id="allBooksSection" class="grid grid-cols-2 md:grid-cols-5 gap-8">
+
+        {% if not all_books %}
+    <div class="col-span-full text-center py-20 text-3xl font-black text-slate-700">
+        No Results found 😢
+    </div>
+{% endif %}
+
+    {% for book in all_books %}
+
+   <a href="/book/{{ book.id }}/"
+   class="block {% if forloop.counter > 10 %}hidden-book hidden{% endif %}">
+
+        <img 
+            src="{{ book.image_url }}" 
+            alt="{{ book.title }}"
+            class="w-full h-[210px] object-contain bg-white p-2 rounded-xl shadow-md hover:scale-105 transition duration-300"
+        >
+
+        <button
+    onclick="event.preventDefault(); addToLibrary('{{ book.id }}', '{{ book.title|escapejs }}', '{{ book.image_url }}')"
+    class="mt-2 bg-white shadow-lg rounded-full px-3 py-1 text-sm hover:scale-110 transition">
+    ❤️
+</button>
+
+        <h4 class="mt-3 text-sm font-bold text-slate-900 leading-tight">
+            {{ book.title }}
+        </h4>
+
+        <p class="text-xs text-slate-500">
+            {{ book.author }}
+        </p>
+
+   </a>
+
+    {% endfor %}
+
+</div>
+
+{% if recently_viewed %}
+<section class="mt-14">
+   <div class="flex justify-between items-center mb-5">
+    <h2 class="text-2xl font-black">Recently Viewed</h2> 
+
+    <button onclick="localStorage.removeItem('recently_viewed'); location.reload();"
+        class="text-red-500 font-black text-xs uppercase">
+        Clear
+    </button>
+</div>
+   <div class="relative">
+
+    <button onclick="scrollRow('recommendedRow', -1)"
+        class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">
+        ‹
+    </button>
+
+    <button onclick="scrollRow('recommendedRow', 1)"
+        class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">
+        ›
+    </button>
+
+    <div id="recommendedRow"
+        class="grid grid-rows-2 grid-flow-col auto-cols-[180px] gap-5 overflow-x-auto scroll-smooth no-scrollbar px-12 pb-4">
+        {% for book in recently_viewed %}
+        <a href="/book/{{ book.id }}/">
+            <img src="{{ book.image_url }}" class="rounded-xl shadow-lg">
+            <button
+    onclick="event.preventDefault(); addToLibrary('{{ book.id }}', '{{ book.title|escapejs }}', '{{ book.image_url }}')"
+    class="mt-2 bg-white shadow-lg rounded-full px-3 py-1 text-sm hover:scale-110 transition">
+    ❤️
+</button>
+            <h3 class="mt-2 font-bold text-sm">{{ book.title }}</h3>
+        </a>
+        {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if personalized_books %}
+<section class="mt-14">
+    <h2 class="text-2xl font-black mb-5">Recommended For You</h2>
+   <div class="relative">
+
+    <button onclick="scrollRow('recommendedBooks', -1)"
+        class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">
+        ‹
+    </button>
+
+    <button onclick="scrollRow('recommendedBooks', 1)"
+        class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">
+        ›
+    </button>
+
+    <div id="recommendedBooks"
+        class="grid grid-rows-2 grid-flow-col auto-cols-[180px] gap-5 overflow-x-auto scroll-smooth no-scrollbar px-12 pb-4">
+        {% for book in personalized_books %}
+        <a href="/book/{{ book.id }}/">
+            <img src="{{ book.image_url }}" class="rounded-xl shadow-lg">
+            <button
+    onclick="event.preventDefault(); addToLibrary('{{ book.id }}', '{{ book.title|escapejs }}', '{{ book.image_url }}')"
+    class="mt-2 bg-white shadow-lg rounded-full px-3 py-1 text-sm hover:scale-110 transition">
+    ❤️
+</button>
+            <h3 class="mt-2 font-bold text-sm">{{ book.title }}</h3>
+        </a>
+        {% endfor %}
+    </div>
+   </div>
+</section>
+{% endif %}
+        <!-- SECTION 2: TOP LOCAL VIBES -->
+       <div class="relative mt-8">
+
+    <!-- Header -->
+
+    <div class="flex justify-between items-end mb-4">
+
+        <h3 class="text-xl font-black text-slate-900 tracking-tight uppercase">
+            Top Local Vibes
+        </h3>
+
+        <a href="/section/top_local_vibes/"
+           class="text-red-500 text-[10px] font-black uppercase hover:underline">
+
+            See All ›
+
+        </a>
+
+    </div>
+
+    <!-- Left Button -->
+
+    <button
+        onclick="scrollRow('topLocalRow', -1)"
+        class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">
+
+        ‹
+
+    </button>
+
+    <!-- Right Button -->
+
+    <button
+        onclick="scrollRow('topLocalRow', 1)"
+        class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">
+
+        ›
+
+    </button>
+
+    <!-- Scrollable Cards -->
+
+    <div
+        id="topLocalRow"
+        class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-4 px-12">
+
+        {% for book in top_local_vibes %}
+
+        <a href="/book/{{ book.id }}/"
+           class="min-w-[180px] max-w-[180px]">
+
+            <img
+                src="{{ book.image_url }}"
+                class="w-full h-[210px] object-contain bg-white p-2 rounded-xl shadow-md hover:scale-105 transition duration-300"
+            >
+
+            <button
+    onclick="event.preventDefault(); addToLibrary('{{ book.id }}', '{{ book.title|escapejs }}', '{{ book.image_url }}')"
+    class="mt-2 bg-white shadow-lg rounded-full px-3 py-1 text-sm hover:scale-110 transition">
+    ❤️
+</button>
+
+            <h4 class="mt-3 text-sm font-bold text-slate-900 leading-tight">
+                {{ book.title }}
+            </h4>
+
+            <p class="text-xs text-slate-500">
+                {{ book.author }}
+            </p>
+
+        </a>
+
+        {% empty %}
+
+        <p class="text-red-500 font-bold">
+            No books found
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+        </div>
+
+       <!-- SECTION 3: YOUTH BESTSELLERS -->
+<div class="relative">
+    <div class="flex justify-between items-end mb-4">
+        <h3 class="text-xl font-black text-slate-900 tracking-tight uppercase">Youth Bestsellers</h3>
+        <a href="/section/youth-bestsellers/" class="text-red-500 text-[10px] font-black uppercase hover:underline">See All ›</a>
+    </div>
+
+    <div class="relative">
+        <button onclick="scrollRow('youthRow', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">‹</button>
+        <button onclick="scrollRow('youthRow', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">›</button>
+
+      <div id="youthRow" class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-4 px-12">
+
+{% for book in youth_bestsellers %}
+
+<a href="/book/{{ book.id }}/" class="min-w-[180px] max-w-[180px]">
+
+    <img
+        src="{{ book.image_url }}"
+        class="w-full h-[210px] object-contain bg-white p-2 rounded-xl shadow-md hover:scale-105 transition duration-300"
+    >
+
+    <button
+    onclick="event.preventDefault(); addToLibrary('{{ book.id }}', '{{ book.title|escapejs }}', '{{ book.image_url }}')"
+    class="mt-2 bg-white shadow-lg rounded-full px-3 py-1 text-sm hover:scale-110 transition">
+    ❤️
+</button>
+
+    <h4 class="mt-3 text-sm font-bold text-slate-900 leading-tight">
+        {{ book.title }}
+    </h4>
+
+    <p class="text-xs text-slate-500">
+        {{ book.author }}
+    </p>
+
+</a>
+
+{% empty %}
+
+<p class="text-red-500 font-bold">
+    No Youth books found
+</p>
+
+{% endfor %}
+
+</div>
+    </div>
+</div>
+<!-- THEMED CATEGORY SPOTLIGHT SECTION -->
+<!-- This section uses 'isolate' to ensure it doesn't interfere with other page elements -->
+<section class="isolate mx-4 md:mx-12 my-12 rounded-[2rem] overflow-hidden bg-[#D1F1FF] flex flex-col md:flex-row h-auto md:h-[450px] font-sans text-slate-900">
+    
+    <!-- Left Sidebar: Category List -->
+    <div class="w-full md:w-1/3 p-8 md:p-10 flex flex-col justify-center">
+        <!-- Ghosted Categories -->
+        <div class="space-y-1 opacity-20 pointer-events-none select-none">
+<button
+onclick="showCategoryBooks('Mythology')"
+class="text-2xl md:text-3xl font-black uppercase tracking-tighter hover:text-red-500 transition">
+
+Mythology
+
+</button>
+          <button
+onclick="showCategoryBooks('Mythology')"
+class="text-2xl md:text-3xl font-black uppercase tracking-tighter hover:text-red-500 transition">
+
+leadership
+
+</button>
+            <button
+onclick="showCategoryBooks('Mythology')"
+class="text-2xl md:text-3xl font-black uppercase tracking-tighter hover:text-red-500 transition">
+
+Mystery
+
+</button>
+        </div>
+        
+        <!-- Active Highlighted Category -->
+        <div class="relative py-3">
+            <h2 class="text-5xl md:text-6xl font-black uppercase tracking-tighter text-slate-900 drop-shadow-sm">
+               Spiritual Books
+            </h2>
+            <!-- Decorative accent line -->
+            <div class="absolute bottom-2 left-0 w-12 h-1.5 bg-[#FFD700] rounded-full"></div>
+        </div>
+        
+        <!-- Ghosted Categories -->
+        <div class="space-y-1 opacity-20 pointer-events-none select-none">
+          <button
+onclick="showCategoryBooks('Mythology')"
+class="text-2xl md:text-3xl font-black uppercase tracking-tighter hover:text-red-500 transition">
+
+Crime
+
+</button>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex gap-3 pt-8">
+            <button class="w-10 h-10 rounded-full bg-white/50 border border-black/5 flex items-center justify-center hover:bg-white hover:scale-110 transition-all active:scale-95 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button class="w-10 h-10 rounded-full bg-white/50 border border-black/5 flex items-center justify-center hover:bg-white hover:scale-110 transition-all active:scale-95 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Right Content: Book Cards (Horizontal Scroll Area) -->
+    <div id="spotlightScroll" class="w-full md:w-2/3 p-6 md:p-10 flex items-center gap-6 overflow-x-auto snap-x snap-mandatory">
+        
+        <!-- Card 1 -->
+        <div class="min-w-[190px] md:min-w-[220px] snap-start bg-white p-4 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group">
+            <div class="relative overflow-hidden rounded-xl mb-3">
+                <img src="https://m.media-amazon.com/images/I/81S8880S8uL.jpg" class="w-full h-48 md:h-56 object-cover transform group-hover:scale-105 transition-transform duration-500" alt="Manga Cover">
+            </div>
+            <h4 class="text-[11px] font-black uppercase truncate text-slate-800">Jujutsu Kaisen, Vol. 21</h4>
+            <p class="text-[9px] font-bold text-slate-400 mb-2">Gege Akutami</p>
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-sm font-black"></span>
+                <span class="text-[9px] font-black text-green-600 bg-green-100 px-2 py-0.5 rounded-full"></span>
+            </div>
+            <button
+onclick="addToLibrary('manga-book', 'Featured Book', '')"
+class="w-full py-2.5 bg-[#FFD700] text-[10px] font-black uppercase rounded-xl border border-black/5 hover:bg-black hover:text-[#FFD700] transition-colors active:scale-95">
+
+Add to Reading List
+
+</button>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="min-w-[190px] md:min-w-[220px] snap-start bg-white p-4 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group">
+            <div class="relative overflow-hidden rounded-xl mb-3">
+                <img src="https://m.media-amazon.com/images/I/81L8E6pA-LL.jpg" class="w-full h-48 md:h-56 object-cover transform group-hover:scale-105 transition-transform duration-500" alt="Manga Cover">
+            </div>
+            <h4 class="text-[11px] font-black uppercase truncate text-slate-800">Chainsaw Man, Vol. 12</h4>
+            <p class="text-[9px] font-bold text-slate-400 mb-2">Tatsuki Fujimoto</p>
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-sm font-black"></span>
+                <span class="text-[9px] font-black text-green-600 bg-green-100 px-2 py-0.5 rounded-full"></span>
+            </div>
+          <button
+onclick="addToLibrary('manga-book', 'Featured Book', '')"
+class="w-full py-2.5 bg-[#FFD700] text-[10px] font-black uppercase rounded-xl border border-black/5 hover:bg-black hover:text-[#FFD700] transition-colors active:scale-95">
+
+Add to Reading List
+
+</button>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="min-w-[190px] md:min-w-[220px] snap-start bg-white p-4 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group">
+            <div class="relative overflow-hidden rounded-xl mb-3">
+                <img src="https://m.media-amazon.com/images/I/71t663673-L.jpg" class="w-full h-48 md:h-56 object-cover transform group-hover:scale-105 transition-transform duration-500" alt="Manga Cover">
+            </div>
+            <h4 class="text-[11px] font-black uppercase truncate text-slate-800">Spy x Family, Vol. 9</h4>
+            <p class="text-[9px] font-bold text-slate-400 mb-2">Tatsuya Endo</p>
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-sm font-black"></span>
+                <span class="text-[9px] font-black text-green-600 bg-green-100 px-2 py-0.5 rounded-full"></span>
+            </div>
+         <button
+onclick="addToLibrary('manga-book', 'Featured Book', '')"
+class="w-full py-2.5 bg-[#FFD700] text-[10px] font-black uppercase rounded-xl border border-black/5 hover:bg-black hover:text-[#FFD700] transition-colors active:scale-95">
+
+Add to Reading List
+
+</button>
+        </div>
+    </div>
+</section>
+
+<style id="spotlight-styles">
+    /* Isolated Scrollbar Hiding for just this section */
+    #spotlightScroll::-webkit-scrollbar { display: none; }
+    #spotlightScroll { 
+        -ms-overflow-style: none; 
+        scrollbar-width: none; 
+        scroll-behavior: smooth;
+    }
+</style>
+<!-- SECTION 4: OLD AGE -->
+<div class="relative">
+    <div class="flex justify-between items-end mb-4">
+        <h3 class="text-xl font-black text-slate-900 tracking-tight uppercase">Old Age</h3>
+        <a href="/section/old-age-wisdom/" class="text-red-500 text-[10px] font-black uppercase hover:underline">See All ›</a>
+    </div>
+
+    <div class="relative">
+        <button onclick="scrollRow('oldAgeRow', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">‹</button>
+        <button onclick="scrollRow('oldAgeRow', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">›</button>
+
+       <div id="oldAgeRow" class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-4 px-12">
+
+{% for book in old_age_books %}
+
+<a href="/book/{{ book.id }}/" class="min-w-[180px] max-w-[180px]">
+
+    <img
+        src="{{ book.image_url }}"
+        class="w-full h-[210px] object-contain bg-white p-2 rounded-xl shadow-md hover:scale-105 transition duration-300"
+    >
+
+    <button
+    onclick="event.preventDefault(); addToLibrary('{{ book.id }}', '{{ book.title|escapejs }}', '{{ book.image_url }}')"
+    class="mt-2 bg-white shadow-lg rounded-full px-3 py-1 text-sm hover:scale-110 transition">
+    ❤️
+</button>
+
+    <h4 class="mt-3 text-sm font-bold text-slate-900 leading-tight">
+        {{ book.title }}
+    </h4>
+
+    <p class="text-xs text-slate-500">
+        {{ book.author }}
+    </p>
+
+</a>
+
+{% empty %}
+
+<p class="text-red-500 font-bold">
+    No Old Age books found
+</p>
+
+{% endfor %}
+
+</div>
+    </div>
+</div>
+
+<!-- SECTION 5: CHILDREN'S FAVOURITES -->
+<div class="relative">
+    <div class="flex justify-between items-end mb-4">
+        <h3 class="text-xl font-black text-slate-900 tracking-tight uppercase">Children's Favourites</h3>
+        <a href="/section/children-favourites/" class="text-red-500 text-[10px] font-black uppercase hover:underline">See All ›</a>
+    </div>
+
+    <div class="relative">
+        <button onclick="scrollRow('childrenRow', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">‹</button>
+        <button onclick="scrollRow('childrenRow', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">›</button>
+
+      <div id="childrenRow" class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-4 px-12">
+
+{% for book in children_books %}
+
+<a href="/book/{{ book.id }}/" class="min-w-[180px] max-w-[180px]">
+
+    <img
+        src="{{ book.image_url }}"
+        class="w-full h-[210px] object-contain bg-white p-2 rounded-xl shadow-md hover:scale-105 transition duration-300"
+    >
+
+    <button
+    onclick="event.preventDefault(); addToLibrary('{{ book.id }}', '{{ book.title|escapejs }}', '{{ book.image_url }}')"
+    class="mt-2 bg-white shadow-lg rounded-full px-3 py-1 text-sm hover:scale-110 transition">
+    ❤️
+</button>
+
+    <h4 class="mt-3 text-sm font-bold text-slate-900 leading-tight">
+        {{ book.title }}
+    </h4>
+
+    <p class="text-xs text-slate-500">
+        {{ book.author }}
+    </p>
+
+</a>
+
+{% empty %}
+
+<p class="text-red-500 font-bold">
+    No Children books found
+</p>
+
+{% endfor %}
+
+</div>
+    </div>
+</div>
+
+<!-- SECTION 6: STRUGGLE JOURNEYS -->
+<div class="relative">
+    <div class="flex justify-between items-end mb-4">
+        <h3 class="text-xl font-black text-slate-900 tracking-tight uppercase">Struggle Journeys</h3>
+        <a href="/section/struggle-journeys/" class="text-red-500 text-[10px] font-black uppercase hover:underline">See All ›</a>
+    </div>
+
+    <div class="relative">
+        <button onclick="scrollRow('struggleRow', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">‹</button>
+        <button onclick="scrollRow('struggleRow', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg w-10 h-10 rounded-full font-black">›</button>
+
+     <div id="struggleRow" class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-4 px-12">
+
+{% for book in struggle_books %}
+
+<a href="/book/{{ book.id }}/" class="min-w-[180px] max-w-[180px]">
+
+    <img
+        src="{{ book.image_url }}"
+        class="w-full h-[210px] object-contain bg-white p-2 rounded-xl shadow-md hover:scale-105 transition duration-300"
+    >
+
+    <button
+    onclick="event.preventDefault(); addToLibrary('{{ book.id }}', '{{ book.title|escapejs }}', '{{ book.image_url }}')"
+    class="mt-2 bg-white shadow-lg rounded-full px-3 py-1 text-sm hover:scale-110 transition">
+    ❤️
+</button>
+
+    <h4 class="mt-3 text-sm font-bold text-slate-900 leading-tight">
+        {{ book.title }}
+    </h4>
+
+    <p class="text-xs text-slate-500">
+        {{ book.author }}
+    </p>
+
+</a>
+
+{% empty %}
+
+<p class="text-red-500 font-bold">
+    No Struggle books found
+</p>
+
+{% endfor %}
+
+</div>
+    </div>
+</div>
+
+    </div>
+    
+</section>
+
+<!-- SIDEBAR BAG -->
+<div id="sidebar" class="fixed top-0 right-0 w-[var(--sidebar-width)] h-full bg-white shadow-[-50px_0_100px_rgba(0,0,0,0.1)] translate-x-full transition-transform duration-500 z-[1000] p-12">
+    <div class="flex justify-between items-center mb-12">
+        <h2 class="text-3xl font-black tracking-tighter">Your Bag</h2>
+        <button onclick="toggleSidebar()" class="text-2xl">✕</button>
+    </div>
+    <div class="text-center mt-20 opacity-20">
+        <span class="text-8xl block mb-6">🛍️</span>
+        <p class="font-black uppercase tracking-[0.3em]">Vault is empty</p>
+    </div>
+</div>
+
+<!-- CHAT UI -->
+<div class="fixed bottom-12 right-12 z-[2000] flex flex-col items-end">
+    <div id="chatBubble" class="hidden w-[400px] h-[600px] bg-white rounded-[2rem] shadow-4xl overflow-hidden flex-col border border-slate-100 mb-6">
+        <div class="p-8 bg-slate-950 text-white flex justify-between items-center">
+            <h3 class="font-black tracking-tighter">Doodle AI</h3>
+            <button onclick="toggleChat()">✕</button>
+        </div>
+        <div id="chatFlow" class="flex-1 p-8 overflow-y-auto bg-slate-50 space-y-4 no-scrollbar text-sm font-bold"></div>
+        <div class="p-6 bg-white border-t flex gap-2">
+            <input id="chatMsg" class="flex-1 bg-slate-100 rounded-full px-6 py-3 outline-none font-bold" placeholder="Querying...">
+            <button onclick="sendChat()" class="bg-red-500 w-12 h-12 rounded-full text-white">🚀</button>
+        </div>
+    </div>
+    <button onclick="toggleChat()" class="w-20 h-20 bg-slate-900 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:scale-110 transition-all hover:bg-red-500 text-white">📖</button>
+</div>
+
+<script>
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('translate-x-full'); }
+    function toggleChat() { 
+        const b = document.getElementById('chatBubble');
+        b.classList.toggle('hidden'); b.classList.toggle('flex');
+    }
+   async function sendChat() {
+    const input = document.getElementById('chatMsg');
+    const flow = document.getElementById('chatFlow');
+
+    if (!input.value.trim()) return;
+
+    flow.innerHTML += `
+        <div class="bg-red-100 p-3 rounded-xl ml-auto max-w-[80%]">
+            ${input.value}
+        </div>
+    `;
+
+    input.value = "";
+
+    setTimeout(() => {
+        flow.innerHTML += `
+            <div class="bg-white p-3 rounded-xl shadow max-w-[80%]">
+                Hello Dear User! This feature will be available soon 😊
+            </div>
+        `;
+    }, 500);
+}
+    function scrollRow(rowId, direction) {
+    const row = document.getElementById(rowId);
+    const scrollAmount = 400; // Adjust based on how far you want it to jump
+    row.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+    });
+}
+</script>
+
+<!-- EXACT REPLICA BANNER SECTION -->
+<section class="px-6 md:px-16 my-10">
+    <div class="max-w-7xl mx-auto rounded-2xl overflow-hidden bg-[#FFEB66] flex relative min-h-[180px] border border-black/5 shadow-sm">
+        
+        <!-- Left Side: Background Image with Gradient Mask -->
+        <div class="absolute inset-y-0 left-0 w-full md:w-1/2">
+            <!-- Using a similar high-quality image of professional people browsing books -->
+            <img 
+    src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=90&w=1200"
+    alt="Person reading books"
+    class="w-full h-full object-cover object-center"
+/>
+            
+            <!-- This gradient matches the 'image_9eb839.png' fade effect -->
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFEB66]/40 to-[#FFEB66]"></div>
+        </div>
+
+        <!-- Right Side: Content pushed to the right to clear the image faces -->
+        <div class="relative z-10 w-full flex flex-col md:flex-row items-center justify-end px-8 md:px-20 py-8 gap-8 ml-auto">
+            
+            <div class="text-center md:text-right">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-1">
+                    Books for every scale
+                </h2>
+                <p class="text-[11px] md:text-sm font-bold text-slate-800 opacity-90 tracking-normal">
+                    Retail Reads & Corporate Bulk Orders Made Simple
+                </p>
+            </div>
+
+            <!-- The Enquire Here Button -->
+            <button class="bg-[#FFD700] hover:bg-black hover:text-[#FFD700] text-slate-900 px-8 py-4 rounded-xl font-black text-sm uppercase transition-all flex items-center gap-2 group shadow-md active:scale-95 whitespace-nowrap border border-black/10">
+                Enquire Here
+                <span class="text-lg group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+            </button>
+            
+        </div>
+    </div>
+</section>
+{% if recommended_books %}
+
+<section class="recommendation-section">
+
+    <h2>
+        Books You May Like
+    </h2>
+
+    <p>
+        Because you visited
+        <strong>
+            {{ visited_book }}
+        </strong>
+    </p>
+
+    <div class="recommendation-scroll">
+
+        {% for book in recommended_books %}
+
+        <a href="/book/{{ book.id }}/"
+           class="recommendation-card">
+
+            <img
+                src="{{ book.image_url }}"
+                alt="{{ book.title }}"
+            >
+
+            <h4>
+                {{ book.title }}
+            </h4>
+
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
+<!-- REARRANGED PREMIUM FOOTER -->
+<footer class="bg-[#FFD700] text-slate-900 pt-12 pb-6 px-6 md:px-16 mt-12 border-t border-black/5">
+    <div class="max-w-7xl mx-auto">
+        <!-- Main Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+            
+            <!-- Column 1: Brand (Takes 2 units of space for breathing room) -->
+            <div class="lg:col-span-1 space-y-5">
+                <div class="flex items-center gap-2">
+                    <div class="bg-black text-[#FFD700] font-black p-1 rounded text-lg w-9 h-9 flex items-center justify-center">D</div>
+                    <span class="font-black text-xl tracking-tighter uppercase">The Doodles</span>
+                </div>
+                <p class="text-[11px] font-bold leading-relaxed opacity-80 pr-6">
+                    Discover great books and meet literary personalities at The Doodles Bookstore community.
+                </p>
+                <div class="flex gap-3 pt-2">
+                    <a href="#" class="w-7 h-7 bg-black text-[#FFD700] rounded-full flex items-center justify-center text-[10px] hover:scale-110 transition-transform shadow-lg">f</a>
+                    <a href="#" class="w-7 h-7 bg-black text-[#FFD700] rounded-full flex items-center justify-center text-[10px] hover:scale-110 transition-transform shadow-lg">X</a>
+                    <a href="#" class="w-7 h-7 bg-black text-[#FFD700] rounded-full flex items-center justify-center text-[10px] hover:scale-110 transition-transform shadow-lg">ig</a>
+                </div>
+            </div>
+
+            <!-- Column 2: Useful Links -->
+            <div>
+                <h4 class="font-black uppercase text-xs mb-5 tracking-widest text-black">Useful Links</h4>
+                <ul class="space-y-2.5 text-[11px] font-bold opacity-70">
+                    <li><a href="#" class="hover:text-black transition-colors">Secure Shopping</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Shipping & Returns</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Terms of Use</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Popular Searches (Rearranged to be next to Useful Links) -->
+            <div>
+                <h4 class="font-black uppercase text-xs mb-5 tracking-widest text-black">Popular Searches</h4>
+                <ul class="space-y-2.5 text-[11px] font-bold opacity-70">
+                    <li><a href="#" class="hover:text-black transition-colors">New Arrivals</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Best Sellers</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Romance Novels</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Mystery & Thrillers</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: About Us (New Links Added) -->
+            <div>
+                <h4 class="font-black uppercase text-xs mb-5 tracking-widest text-black">About Us</h4>
+                <ul class="space-y-2.5 text-[11px] font-bold opacity-70">
+                    <li><a href="#" class="hover:text-black transition-colors">About Us</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Store Locator</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Blogs</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Careers</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Become a Member</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 5: Location (Reduced map height) -->
+            <div class="relative">
+                <h4 class="font-black uppercase text-[10px] mb-3 tracking-widest">Location</h4>
+                <div class="relative w-full h-24 rounded-xl overflow-hidden border border-black/10 shadow-md group">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.2811440787134!2d84.66579897538356!3d25.244229977682212!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398d5f3000000001%3A0x7b5876644a47567c!2sGovernment%20Engineering%20College%2C%20Arwal!5e0!3m2!1sen!2sin!4v1715526045000!5m2!1sen!2sin" 
+                        class="w-full h-full border-0 grayscale group-hover:grayscale-0 transition-all duration-500" 
+                        loading="lazy">
+                    </iframe>
+                    <div class="absolute inset-0 pointer-events-none flex items-center justify-center mb-2">
+                        <svg class="w-6 h-6 text-red-600 drop-shadow-md animate-bounce" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-[8px] font-black mt-1.5 opacity-50 uppercase">GEC Arwal, Bihar</p>
+            </div>
+        </div>
+
+        <!-- Bottom Bar (Reduced padding) -->
+        <div class="border-t border-black/10 pt-4 flex flex-row justify-between items-center">
+            <p class="text-[9px] font-black uppercase tracking-widest">
+                © 2026 | Crafted with ❤️ by THE DOODLES
+            </p>
+            <div class="text-[8px] font-black opacity-30 tracking-tight">
+                GEC ARWAL
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Use ./ to tell the browser to look in the current folder -->
+    <!-- 2. Dynamic Vault Content Area -->
+    <div id="vault-dynamic-content"></div>
+
+    <!-- 3. SCRIPTS AT THE VERY END -->
+    <!-- Move these to the VERY BOTTOM of your index.html, just before </body> -->
+<!-- Use Flask's url_for to point to the static folder -->
+<!-- Change ultra.js -->
+<script src="{% static 'ultra.js' %}"></script>
+<script>
+
+function toggleBooks() {
+
+    const hiddenBooks = document.querySelectorAll('.hidden-book');
+    const btn = document.getElementById('seeAllBtn');
+
+    hiddenBooks.forEach(book => {
+        book.classList.toggle('hidden');
+    });
+
+    if (btn.innerText.trim() === 'See All ›') {
+
+        btn.innerText = 'See Less ›';
+
+    } else {
+
+        btn.innerText = 'See All ›';
+
+    }
+
+}
+
+function applyFilter(key, value) {
+    const url = new URL(window.location.href);
+
+    if (url.searchParams.get(key) === value) {
+        url.searchParams.delete(key);
+    } else {
+        url.searchParams.set(key, value);
+    }
+
+    window.location.href = url.toString();
+}
+</script>
+<!-- Change script.js -->
+<script src="{% static 'script.js' %}"></script>
+
+</body>
+</html>

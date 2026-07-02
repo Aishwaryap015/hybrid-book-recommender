@@ -1,0 +1,12 @@
+digraph {
+	A [label=User]
+	B [label="Collaborative Filtering"]
+	C [label="Content-Based Filtering"]
+	D [label="Hybrid Recommendation"]
+	E [label="Recommended Books"]
+	A -> B
+	A -> C
+	B -> D
+	C -> D
+	D -> E
+}

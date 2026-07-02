@@ -1,0 +1,117 @@
+.
+├── 26.1.1
+├── app.py
+├── book_engine
+│   ├── asgi.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-312.pyc
+│   │   ├── settings.cpython-312.pyc
+│   │   ├── urls.cpython-312.pyc
+│   │   └── wsgi.cpython-312.pyc
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── core
+│   ├── admin.py
+│   ├── apps.py
+│   ├── __init__.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_book_category_book_created_at_book_description_and_more.py
+│   │   ├── 0003_bookrating.py
+│   │   ├── 0004_alter_book_format_type_alter_book_language.py
+│   │   ├── 0005_bookrating_review.py
+│   │   ├── 0006_alter_bookrating_table.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   ├── models.py
+│   ├── __pycache__
+│   │   ├── admin.cpython-312.pyc
+│   │   ├── apps.cpython-312.pyc
+│   │   ├── __init__.cpython-312.pyc
+│   │   ├── models.cpython-312.pyc
+│   │   ├── recommender.cpython-312.pyc
+│   │   └── views.cpython-312.pyc
+│   ├── recommender.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── data
+│   ├── Books.csv
+│   ├── Ratings.csv
+│   └── Users.csv
+├── folder_structure.txt
+├── import_books.py
+├── manage.py
+├── ml_models
+│   ├── recommender.py
+│   ├── saved_models
+│   │   ├── books_df.pkl
+│   │   ├── centered_cosine.pkl
+│   │   ├── knn_model.pkl
+│   │   ├── pearson_similarity.pkl
+│   │   └── user_item_matrix.pkl
+│   ├── train_collaborative.py
+│   └── train_content.py
+├── models
+├── notebooks
+├── __pycache__
+│   └── app.cpython-312.pyc
+├── README.md
+├── src
+│   ├── collaborative.py
+│   ├── content_based.py
+│   ├── data_preprocessing.py
+│   ├── db.py
+│   ├── hybrid.py
+│   ├── import_data.py
+│   ├── import_ratings.py
+│   ├── __pycache__
+│   │   └── data_preprocessing.cpython-312.pyc
+│   ├── train_model.py
+│   └── venv
+│       ├── bin
+│       ├── include
+│       ├── lib
+│       ├── lib64 -> lib
+│       └── pyvenv.cfg
+├── static
+│   ├── script.js
+│   ├── style.css
+│   ├── ultra.css
+│   └── ultra.js
+├── templates
+│   ├── about.html
+│   ├── book_detail.html
+│   ├── index.html
+│   └── section_page.html
+├── users.json
+└── venv
+    ├── bin
+    │   ├── activate
+    │   ├── activate.csh
+    │   ├── activate.fish
+    │   ├── Activate.ps1
+    │   ├── django-admin
+    │   ├── django-admin.py
+    │   ├── f2py
+    │   ├── flask
+    │   ├── git-filter-repo
+    │   ├── numpy-config
+    │   ├── pip
+    │   ├── pip3
+    │   ├── pip3.12
+    │   ├── __pycache__
+    │   ├── python -> python3.12
+    │   ├── python3 -> python3.12
+    │   ├── python3.12 -> /usr/local/bin/python3.12
+    │   └── sqlformat
+    ├── include
+    │   └── python3.12
+    ├── lib
+    │   └── python3.12
+    ├── lib64 -> lib
+    └── pyvenv.cfg
+
+30 directories, 85 files

@@ -1,0 +1,324 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ section_name }} | BookAI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+
+    <style>
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+        }
+
+        .glass-nav {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+    </style>
+
+</head>
+
+<body class="overflow-x-hidden">
+
+<!-- NAVBAR -->
+
+<nav class="glass-nav sticky top-0 z-50 border-b border-slate-200 px-6 md:px-16 py-4 flex items-center justify-between">
+
+    <!-- LOGO -->
+
+    <a href="/"
+       class="flex items-center gap-3">
+
+        <div class="w-10 h-10 bg-red-500 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/20">
+
+            <span class="text-white font-black text-xs">
+                AI
+            </span>
+
+        </div>
+
+        <div class="leading-none">
+
+            <span class="text-xl font-extrabold text-slate-900 tracking-tighter">
+                BookAI
+            </span>
+
+            <span class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mt-0.5">
+
+                Enterprise v4.2
+
+            </span>
+
+        </div>
+
+    </a>
+
+    <!-- SEARCH -->
+
+    <div class="flex-1 flex justify-center px-8">
+
+        <div class="w-full max-w-2xl relative">
+
+            <input
+                type="text"
+                placeholder="Search books..."
+                class="w-full bg-slate-100 border-none rounded-lg py-3 px-12 text-sm font-semibold outline-none"
+            >
+
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 opacity-40">
+                🔍
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- BACK BUTTON -->
+
+    <a href="/"
+       class="bg-slate-900 hover:bg-red-500 transition-all text-white px-5 py-3 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg">
+
+        ← Back Home
+
+    </a>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="relative mx-4 md:mx-12 my-8 h-[300px] overflow-hidden bg-slate-900 rounded-[2rem] shadow-xl group">
+
+    <!-- BACKGROUND -->
+
+    <div class="absolute inset-0">
+
+        <img
+            src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=90&w=1600"
+            class="w-full h-full object-cover opacity-40 scale-110 group-hover:scale-100 transition duration-[3000ms]"
+        >
+
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/60 to-transparent"></div>
+
+    </div>
+
+    <!-- CONTENT -->
+
+    <div class="relative h-full flex flex-col justify-center px-10 md:px-16 z-10">
+
+        <p class="uppercase tracking-[0.4em] text-red-500 text-xs font-black mb-4">
+
+            Curated Collection
+
+        </p>
+
+        <h1 class="text-5xl md:text-6xl font-black text-white tracking-tighter leading-[0.9]">
+
+            {{ section_name }}
+
+        </h1>
+
+        <p class="text-slate-300 text-sm md:text-base mt-5 max-w-xl italic border-l-2 border-red-500 pl-4">
+
+            Explore handpicked books from the {{ section_name }} collection.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- BOOK GRID -->
+
+<section class="px-6 md:px-16 pb-24">
+
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+
+        {% for book in books %}
+
+        <a href="/book/{{ book.id }}/"
+           class="group">
+
+            <div class="bg-white rounded-3xl p-4 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+
+                <!-- IMAGE -->
+
+                <div class="overflow-hidden rounded-2xl bg-slate-100">
+
+                    <img
+                        src="{{ book.image_url }}"
+                        onerror="this.src='https://via.placeholder.com/200x300?text=No+Image'"
+                        class="w-full h-[260px] object-contain p-3 group-hover:scale-105 transition duration-300"
+                    >
+
+                </div>
+
+                <!-- TITLE -->
+
+                <h3 class="mt-4 text-sm font-black text-slate-900 leading-tight line-clamp-2">
+
+                    {{ book.title }}
+
+                </h3>
+
+                <!-- AUTHOR -->
+
+                <p class="text-xs text-slate-500 mt-2">
+
+                    {{ book.author }}
+
+                </p>
+
+                <!-- BUTTON -->
+
+                <button
+                    class="mt-5 w-full bg-slate-900 hover:bg-red-500 transition-all text-white py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest">
+
+                    Add to Reading List
+
+                </button>
+
+            </div>
+
+        </a>
+
+        {% empty %}
+
+        <div class="col-span-full text-center py-24">
+
+            <h2 class="text-5xl font-black text-red-500 mb-4">
+
+                No Books Found
+
+            </h2>
+
+            <p class="text-slate-500 text-lg">
+
+                Try another section.
+
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="bg-[#FFD700] text-slate-900 pt-12 pb-6 px-6 md:px-16 border-t border-black/5">
+
+    <div class="max-w-7xl mx-auto">
+
+        <div class="flex flex-col md:flex-row justify-between gap-10">
+
+            <!-- BRAND -->
+
+            <div class="space-y-4">
+
+                <div class="flex items-center gap-3">
+
+                    <div class="bg-black text-[#FFD700] font-black p-2 rounded-lg">
+
+                        D
+
+                    </div>
+
+                    <span class="font-black text-2xl tracking-tight uppercase">
+
+                        The Doodles
+
+                    </span>
+
+                </div>
+
+                <p class="text-xs font-bold opacity-70 max-w-sm">
+
+                    Discover amazing books and personalized reading experiences powered by AI.
+
+                </p>
+
+            </div>
+
+            <!-- LINKS -->
+
+            <div>
+
+                <h4 class="font-black uppercase text-xs mb-4 tracking-widest">
+
+                    Quick Links
+
+                </h4>
+
+                <div class="space-y-2 text-xs font-bold opacity-70">
+
+                    <a href="/" class="block hover:text-black">
+                        Home
+                    </a>
+
+                    <a href="#" class="block hover:text-black">
+                        Best Sellers
+                    </a>
+
+                    <a href="#" class="block hover:text-black">
+                        Manga
+                    </a>
+
+                    <a href="#" class="block hover:text-black">
+                        Mystery
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- BOTTOM -->
+
+        <div class="border-t border-black/10 mt-10 pt-5 flex justify-between items-center">
+
+            <p class="text-[10px] font-black uppercase tracking-widest">
+
+                © 2026 | Crafted by THE DOODLES
+
+            </p>
+
+            <span class="text-[9px] opacity-40 font-black">
+
+                BOOKAI ENTERPRISE
+
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
