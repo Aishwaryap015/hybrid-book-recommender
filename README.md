@@ -1,160 +1,261 @@
-# 📚 Book Recommendation Engine
+# BookAI – Hybrid Book Recommendation System
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Django](https://img.shields.io/badge/Django-Framework-green)
+![MongoDB](https://img.shields.io/badge/MongoDB-NoSQL-success)
+![Machine Learning](https://img.shields.io/badge/Machine-Learning-orange)
+![License](https://img.shields.io/badge/License-Academic-lightgrey)
 
-An AI-powered Book Recommendation System built using **Django, MongoDB, HTML, CSS, and JavaScript** that helps users discover books through intelligent recommendation techniques.
+A full-stack machine learning web application that provides personalized book recommendations using a hybrid recommendation approach combining **Collaborative Filtering** and **Content-Based Filtering**.
 
----
+BookAI was developed as the **Final Year B.Tech Project** for the **Department of Computer Science & Engineering (Data Science)** at **Government Engineering College, Arwal**, affiliated with **Bihar Engineering University, Patna**, during the academic session **2022–2026**.
 
-## 🚀 Features
-
-* 🔐 User Authentication System
-* 👤 Guest Login Support
-* 📚 Personalized Book Recommendations
-* 🤖 AI-Based Recommendation Logic
-* 🔎 Book Search Functionality
-* ❤️ Add to Favorites
-* 📱 Responsive User Interface
-* 🌙 Modern and Interactive Frontend
-* 🗂 MongoDB Database Integration
-* ⚡ Fast and Dynamic User Experience
+The application integrates Django, MongoDB, and machine learning techniques to deliver personalized recommendations based on user behavior and book metadata.
 
 ---
 
-## 🛠️ Tech Stack
+## Overview
+
+BookAI addresses the challenges of discovering relevant books from large digital libraries and online book collections. The recommendation engine combines collaborative filtering with content-based filtering to improve recommendation quality while minimizing cold-start and sparsity issues.
+
+The system is designed to provide an intuitive user experience with personalized recommendations, user authentication, book search, wishlist management, and responsive web interfaces.
+
+---
+
+## Features
+
+- Hybrid recommendation engine
+- Personalized book recommendations
+- Collaborative Filtering using Pearson Correlation
+- Content-Based Filtering using TF-IDF and Cosine Similarity
+- User authentication
+- Guest login
+- Book search
+- Wishlist and favorites
+- Recently viewed books
+- Popular and top-rated books
+- Responsive user interface
+- MongoDB database integration
+
+---
+
+## Recommendation Algorithms
+
+### Content-Based Filtering
+
+- TF-IDF Vectorization
+- Cosine Similarity
+- Metadata-based similarity computation
+
+### Collaborative Filtering
+
+- User-Item Interaction Matrix
+- Pearson Correlation
+- K-Nearest Neighbors (KNN)
+
+### Hybrid Recommendation
+
+The recommendation engine combines collaborative filtering and content-based filtering to generate accurate and personalized recommendations while reducing the cold-start problem.
+
+---
+
+## Technology Stack
 
 ### Frontend
 
-* HTML5
-* CSS3
-* JavaScript
+- HTML5
+- CSS3
+- JavaScript
 
 ### Backend
 
-* Django
-* Python
+- Python
+- Django
 
 ### Database
 
-* MongoDB
+- MongoDB
 
-### Other Tools
+### Machine Learning
 
-* Git & GitHub
-* VS Code
+- Scikit-learn
+- Pandas
+- NumPy
+
+### Development Tools
+
+- Git
+- GitHub
+- Visual Studio Code
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
-```bash
-book-recommender/
-│
+```text
+BookAI/
+
 ├── core/
+├── data/
+├── ml_models/
+│   ├── train_content.py
+│   ├── train_collaborative.py
+│   ├── recommender.py
+│   └── saved_models/
+│
 ├── templates/
 ├── static/
-│   ├── css/
-│   ├── js/
-│   └── images/
-│
+├── notebooks/
 ├── manage.py
 ├── requirements.txt
-├── db.sqlite3
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## ⚙️ Installation & Setup
+## Installation
 
-### 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/Aishwaryap015/book-recommender-engine.git
-```
-
-### 2️⃣ Move into Project Folder
+### Clone the Repository
 
 ```bash
-cd book-recommender-engine
+git clone https://github.com/Aishwaryap015/hybrid-book-recommender.git
 ```
 
-### 3️⃣ Create Virtual Environment
+### Navigate to the Project
 
 ```bash
-python3 -m venv venv
+cd hybrid-book-recommender
 ```
 
-### 4️⃣ Activate Virtual Environment
+### Create a Virtual Environment
 
-#### Linux / Mac
+```bash
+python -m venv venv
+```
+
+### Activate the Virtual Environment
+
+Linux/macOS
 
 ```bash
 source venv/bin/activate
 ```
 
-#### Windows
+Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-### 5️⃣ Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 6️⃣ Run Server
+### Configure MongoDB
 
-```bash
-python3 manage.py runserver
+Install MongoDB and update the database configuration in:
+
+```
+settings.py
 ```
 
 ---
 
-## 📸 Screenshots
+## Training the Machine Learning Models
 
-### 🏠 Homepage
+The trained machine learning models are not included in this repository because they exceed GitHub's file size limits.
 
-*Add project screenshot here*
+Generate the required models locally by running:
 
-### 🔐 Login/Register Page
+```bash
+python ml_models/train_content.py
+python ml_models/train_collaborative.py
+```
 
-*Add project screenshot here*
+The generated model files will be stored in:
 
-### 📚 Recommendation Section
-
-*Add project screenshot here*
-
----
-
-## 🧠 Recommendation Techniques Used
-
-* Content-Based Filtering
-* Collaborative Filtering
-* User Preference Matching
+```
+ml_models/saved_models/
+```
 
 ---
 
-## 🎯 Future Improvements
+## Running the Application
 
-* 📱 Mobile Application Version
-* 🤖 Deep Learning Recommendations
-* ⭐ Book Rating System
-* 🛒 Book Purchase Integration
-* ☁️ Cloud Deployment
+```bash
+python manage.py runserver
+```
+
+Open your browser and visit:
+
+```
+http://127.0.0.1:8000/
+```
 
 ---
 
-## 👨‍💻 Author
+## Screenshots
+
+Screenshots of the application interface will be added in a future update.
+
+---
+
+## Future Enhancements
+
+- Deep learning-based recommendation models
+- Large Language Model (LLM) assisted recommendations
+- REST API integration
+- Docker containerization
+- Cloud deployment
+- Book review and rating system
+- Recommendation explainability
+
+---
+
+## Academic Information
+
+**Project Title**
+
+Book Recommendation System Using Collaborative and Content-Based Filtering
+
+**Project Type**
+
+Final Year B.Tech Project
+
+**Department**
+
+Computer Science & Engineering (Data Science)
+
+**Institution**
+
+Government Engineering College, Arwal
+
+**Affiliated University**
+
+Bihar Engineering University, Patna
+
+**Academic Session**
+
+2022–2026
+
+---
+
+## Author
 
 **Aishwarya Priydarshni**
 
-* GitHub: https://github.com/Aishwaryap015
+B.Tech – Computer Science & Engineering (Data Science)
+
+Government Engineering College, Arwal
+
+GitHub: https://github.com/Aishwaryap015
 
 ---
 
-## ⭐ Support
+## License
 
-If you like this project, consider giving it a ⭐ on GitHub!
+This project is developed for academic and educational purposes.
 
----
+If you find this project useful, consider giving it a ⭐ on GitHub.
