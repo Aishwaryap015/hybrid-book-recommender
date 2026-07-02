@@ -8,16 +8,5 @@ db.sqlite3
 staticfiles/
 .ipynb_checkpoints/
 
-
-# Large ML Models
-ml_models/saved_models/user_item_matrix.pkl
-ml_models/saved_models/knn_model.pkl
-ml_models/saved_models/pearson_similarity.pkl
-ml_models/saved_models/centered_cosine.pkl
-
-# Large ML Models
-ml_models/saved_models/user_item_matrix.pkl
-ml_models/saved_models/knn_model.pkl
-ml_models/saved_models/content_similarity.pkl
-ml_models/saved_models/pearson_similarity.pkl
-ml_models/saved_models/centered_cosine.pkl
+# Trained ML Models
+ml_models/saved_models/
